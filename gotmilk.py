@@ -20,7 +20,6 @@ import ConfigParser
 import urllib2
 import subprocess
 
-
 config = ConfigParser.ConfigParser()
 config.read([os.path.expanduser("~/gotmilk/.gotmilk"), '/etc/gotmilk'])
 
@@ -41,14 +40,14 @@ def get_ip():
 	process.wait()
 	return process.stdout.read().split(':')[1]
 
-def send_message(message):
+def send_message(message,color):
 	# send a message via HipChat
 	hipchat_url = "https://api.hipchat.com/v1/rooms/message?format=json&auth_token=" + AUTH_TOKEN
 
 	payload = {
 		'room_id':HIPCHAT_ROOM_ID,
 		'from':'Milkmaid',
-		'color':'red',
+		'color':color,
 		'notify':'true',
 		'message':message
 	}
@@ -59,7 +58,7 @@ def wait_for_access():
 	while (internet_on() == False):
 		time.sleep(2)
 	ip_address = get_ip()
-	send_message('Milkmaid up and monitoring on '+ ip_address)
+	send_message('Your friendly Talis Milkmaid is up and monitoring on '+ ip_address+' (checking the fridge every '+str(DELAY)+' seconds)','gray')
 
 wait_for_access() 
 
@@ -87,6 +86,9 @@ resistor_channel = 0
 # Define previous resistor level
 previous_resistor_level = 0
 nothing_on_pad_count = 0
+milk_gone_warning_shown = False
+milk_low_warning_shown = False
+milk_ok_warning_shown = False
 
 while True:
 	level_message = "Monitoring..."
@@ -101,19 +103,47 @@ while True:
 			level_message = "Nothing on the pad"
 			nothing_on_pad_count += 1
 			if nothing_on_pad_count == 5:
-				level_message = "Milk has all gone (or been left out of the fridge!)"
 				nothing_on_pad_count = 0
+				level_message = "Milk has all gone (or been left out of the fridge!)"
+				if milk_gone_warning_shown == False:
+					send_message(level_message,'red')
+					milk_gone_warning_shown = True
+					milk_ok_warning_shown = False
 		elif 650 <= resistor_level <= 900:
  			# Milk running low
 			level_message = "Milk running low - please buy more"
 			nothing_on_pad_count = 0
+			if milk_low_warning_shown == False:
+				send_message(level_message,'yellow')
+				milk_low_warning_shown = True
+				milk_ok_warning_shown = False
 		elif 400 <= resistor_level <= 650:
 			# Milk is healthy
 			level_message = "Milk level currently okay"
+
+			# See if we previous mentioned that the milk was low, if so, message that the milk is now okay (if we didn't do that already)
+			if (milk_gone_warning_shown == True or milk_low_warning_shown == True):
+				if milk_ok_warning_shown == False:
+					send_message(level_message,'green')
+					milk_ok_warning_shown = True
+
+			# Reset flags
+			milk_low_warning_shown = False
+			milk_gone_warning_shown = False
 			nothing_on_pad_count = 0
 		else:
 			# Loads of milk
-			level_message = "Lots of milk!"
+			level_message = "Milk is plentiful!"
+
+			# See if we previous mentioned that the milk was low, if so, message that the milk is now okay (if we didn't do that already)
+			if (milk_gone_warning_shown == True or milk_low_warning_shown == True):
+				if milk_ok_warning_shown == False:
+					send_message(level_message,'green')
+					milk_ok_warning_shown = True
+
+			# Reset flags
+			milk_low_warning_shown = False
+			milk_gone_warning_shown = False
 			nothing_on_pad_count = 0
 
 	# Print out results
@@ -126,4 +156,3 @@ while True:
 	# Wait before repeating loop
 	time.sleep(DELAY)
  
-
