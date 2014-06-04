@@ -8,7 +8,7 @@
 #
 # Ref :
 #
-# http://www.raspberrypi-spy.co.uk/
+# 	http://www.raspberrypi-spy.co.uk/
 #
 #--------------------------------------
 
@@ -19,6 +19,7 @@ import requests
 import ConfigParser
 import urllib2
 import subprocess
+import datetime
 
 config = ConfigParser.ConfigParser()
 config.read([os.path.expanduser("~/gotmilk/.gotmilk"), '/etc/gotmilk'])
@@ -62,6 +63,23 @@ def wait_for_access():
 
 wait_for_access() 
 
+def write_file(level,message):
+	# write data to local files
+
+	# open log for append
+	log = open('milklog.txt', 'a')
+
+	# open current level for write - only most recent value will be in here
+	current = open('milklevel.txt', 'w')
+
+	# write values
+	current.write(level)
+	log.write(message)
+
+	# close files
+	current.close()
+	log.close()
+
 # Open SPI bus
 spi = spidev.SpiDev()
 spi.open(0,0)
@@ -91,6 +109,9 @@ milk_low_warning_shown = False
 milk_ok_warning_shown = False
 
 while True:
+	# get current datetime
+	now = datetime.datetime.now()
+
 	level_message = "Monitoring..."
 
 	# Read the resistor data
@@ -146,11 +167,17 @@ while True:
 			milk_gone_warning_shown = False
 			nothing_on_pad_count = 0
 
+	current_time = now.strftime("%Y-%m-%d %H:%M")
+
 	# Print out results
 	print "--------------------------------------------"  
-	print("Pressure : {} ({}V)".format(resistor_level,resistor_volts))
+	print(current_time+" pressure : {} ({}V)".format(resistor_level,resistor_volts))
 	print level_message  
 
+	# write the level to the local logs etc
+	write_file(resistor_level,current_time+","+str(resistor_level)+","+str(resistor_volts)+","+level_message)
+
+	# set the previous level to the current level for comparison next time
 	previous_resistor_level = resistor_level
 
 	# Wait before repeating loop
