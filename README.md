@@ -29,9 +29,9 @@ Messages are sent to HipChat on a specific status change only - i.e. when going 
 
 Possible messages sent to HipChat:
 
-- Milk has all gone (or been left out of the fridge!) - This is shown if the milk has literally all gone or is too low to measure or has been left out of the fridge
-- Milk running low - please buy more - This is shown if the milk level is getting low
-- Milk level currently okay - This is shown if there is currently sufficient milk
-- Milk is plentiful! - This is shown if there is a lot of milk left
+- **Milk has all gone (or been left out of the fridge!)** - _This is shown if the milk has literally all gone or is too low to measure or has been left out of the fridge_
+- **Milk running low - please buy more** - _This is shown if the milk level is getting low_
+- **Milk level currently okay** - _This is shown if there is currently sufficient milk_
+- **Milk is plentiful!** - _This is shown if there is a lot of milk left_
 
 
