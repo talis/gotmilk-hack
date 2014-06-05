@@ -23,3 +23,15 @@ This is CSV data containing:
 - Last read date/time
 - Resistor value - higher values mean LESS pressure (as in less milk)
 - Voltage - will vary depending on the resistence in the pad (will be higher with less pressure)
+- Message - this is a text string message (potentially for posting to HipChat)
+
+Messages are sent to HipChat on a specific status change only - i.e. when going from milk being okay to milk being low. Or if there was no milk and then someone bought milk.
+
+Possible messages sent to HipChat:
+
+- Milk has all gone (or been left out of the fridge!) - This is shown if the milk has literally all gone or is too low to measure or has been left out of the fridge
+- Milk running low - please buy more - This is shown if the milk level is getting low
+- Milk level currently okay - This is shown if there is currently sufficient milk
+- Milk is plentiful! - This is shown if there is a lot of milk left
+
+
