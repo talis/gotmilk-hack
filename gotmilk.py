@@ -67,18 +67,18 @@ def write_file(level,message):
 	# write data to local files
 
 	# open log for append
-	log = open('milklog.txt', 'a')
+	#log = open('milklog.txt', 'a')
 
 	# open current level for write - only most recent value will be in here
 	current = open('milklevel.txt', 'w')
 
 	# write values
-	current.write(level)
-	log.write(message)
+	current.write(message)
+	#log.write(message)
 
 	# close files
 	current.close()
-	log.close()
+	#log.close()
 
 # Open SPI bus
 spi = spidev.SpiDev()
@@ -171,7 +171,7 @@ while True:
 
 	# Print out results
 	print "--------------------------------------------"  
-	print(current_time+" pressure : {} ({}V)".format(resistor_level,resistor_volts))
+	print("{} pressure : {} ({}V)".format(current_time,resistor_level,resistor_volts))
 	print level_message  
 
 	# write the level to the local logs etc
