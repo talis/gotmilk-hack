@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Talis Milkmaid</title>
+<style type="text/css">
+#fill {
+    background-image: -webkit-gradient(linear, 0 100%, 0 0, color-stop(0.8, #FFFFFF), color-stop(0.1, #000000));
+    background-image: -webkit-linear-gradient(bottom, #FFFFFF @level@, #000000 10%);
+    background-image: -moz-linear-gradient(bottom, #FFFFFF @level@, #000000 10%);
+    background-image: -o-linear-gradient(bottom, #FFFFFF @level@, #000000 10%);
+    background-image: linear-gradient(bottom, #FFFFFF @level@, #000000 10%);        
+    color: #003366;
+    display: block;
+    height: 250px;
+    width: 250px;
+    display: inline-block;
+    position: absolute;
+    top: 142px;
+    z-index: 1;
+}
+#container {
+    background-image: url("milk_carton.png");
+    height: 333px;
+    width: 250px;
+    position: absolute;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    z-index: 2;
+}
+
+#container .date {
+    font-size: 20px;
+    font-weight: normal;    
+}
+
+#container .level {
+    font-size: 40px;
+    font-weight: bold;  
+}
+</style>
+</head>
+<body>
+<h1>Milkmaid Status</h1>
+<div id="fill">
+</div>
+<div id="container">
+    <div class="date">@date@</div>
+    <div class="level">@level@</div>
+</div>
+</body>
+</html>

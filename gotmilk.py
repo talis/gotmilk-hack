@@ -20,6 +20,7 @@ import ConfigParser
 import urllib2
 import subprocess
 import datetime
+import fileinput
 
 config = ConfigParser.ConfigParser()
 config.read([os.path.expanduser("~/gotmilk/.gotmilk"), '/etc/gotmilk'])
@@ -79,6 +80,20 @@ def write_file(level,message):
 	# close files
 	current.close()
 	#log.close()
+
+def update_html(level,date):
+	html_file = "milklevel.html"
+
+	f = open(html_file,'r')
+	filedata = f.read()
+	f.close()
+
+	newdata = filedata.replace("@level@", str(level))
+	newdata = newdata.replace("@date@", date)
+
+	f = open(html_file,'w')
+	f.write(newdata)
+	f.close()	
 
 # Open SPI bus
 spi = spidev.SpiDev()
@@ -170,12 +185,15 @@ while True:
 	current_time = now.strftime("%Y-%m-%d %H:%M")
 
 	# Print out results
-	print "--------------------------------------------"  
-	print("{} pressure : {} ({}V)".format(current_time,resistor_level,resistor_volts))
-	print level_message  
+	#print "--------------------------------------------"  
+	#print("{} pressure : {} ({}V)".format(current_time,resistor_level,resistor_volts))
+	#print level_message  
 
 	# write the level to the local logs etc
 	write_file(resistor_level,current_time+","+str(resistor_level)+","+str(resistor_volts)+","+level_message)
+
+	# update the HTML file
+	update_html(resistor_level,current_time)
 
 	# set the previous level to the current level for comparison next time
 	previous_resistor_level = resistor_level
