@@ -82,7 +82,7 @@ def write_file(level,message):
 	#log.close()
 
 def update_html(level_percent_string,date):
-	html_file_template = "milklevel_template.html"
+	html_file_template = "/home/pi/gotmilk/milklevel_template.html"
 	html_file = "milklevel.html"
 
 	f = open(html_file_template,'r')
