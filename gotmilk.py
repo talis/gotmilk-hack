@@ -81,14 +81,15 @@ def write_file(level,message):
 	current.close()
 	#log.close()
 
-def update_html(level,date):
+def update_html(level_percent_string,date):
+	html_file_template = "milklevel_template.html"
 	html_file = "milklevel.html"
 
-	f = open(html_file,'r')
+	f = open(html_file_template,'r')
 	filedata = f.read()
 	f.close()
 
-	newdata = filedata.replace("@level@", str(level))
+	newdata = filedata.replace("@level@", level_percent_string + "%")
 	newdata = newdata.replace("@date@", date)
 
 	f = open(html_file,'w')
@@ -122,6 +123,9 @@ nothing_on_pad_count = 0
 milk_gone_warning_shown = False
 milk_low_warning_shown = False
 milk_ok_warning_shown = False
+
+# Setup a value that indicates the resistor value we get back when there is nothing on the pad
+nothing_on_pad_resistor_level = 1000
 
 while True:
 	# get current datetime
@@ -193,7 +197,11 @@ while True:
 	write_file(resistor_level,current_time+","+str(resistor_level)+","+str(resistor_volts)+","+level_message)
 
 	# update the HTML file
-	update_html(resistor_level,current_time)
+	resistor_level_percent = round(((float(resistor_level) / float(nothing_on_pad_resistor_level)) * 100),0)
+	resistor_level_percent_string = str(resistor_level_percent)
+	resistor_level_percent_string = resistor_level_percent_string.rstrip("0").rstrip(".") if "." in resistor_level_percent_string else resistor_level_percent_string
+
+	update_html(resistor_level_percent_string,current_time)
 
 	# set the previous level to the current level for comparison next time
 	previous_resistor_level = resistor_level
