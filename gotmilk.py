@@ -198,7 +198,7 @@ while True:
 
 	# update the HTML file
 	resistor_level_percent = round(((float(resistor_level) / float(nothing_on_pad_resistor_level)) * 100),0)
-	resistor_level_percent_string = str(resistor_level_percent)
+	resistor_level_percent_string = str(100 - resistor_level_percent)
 	resistor_level_percent_string = resistor_level_percent_string.rstrip("0").rstrip(".") if "." in resistor_level_percent_string else resistor_level_percent_string
 
 	update_html(resistor_level_percent_string,current_time)
