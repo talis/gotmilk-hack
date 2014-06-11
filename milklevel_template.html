@@ -1,53 +1,73 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Talis Milkmaid</title>
-<style type="text/css">
-#fill {
-    background-image: -webkit-gradient(linear, 0 100%, 0 0, color-stop(0.8, #FFFFFF), color-stop(0.1, #000000));
-    background-image: -webkit-linear-gradient(bottom, #FFFFFF @level@, #000000 10%);
-    background-image: -moz-linear-gradient(bottom, #FFFFFF @level@, #000000 10%);
-    background-image: -o-linear-gradient(bottom, #FFFFFF @level@, #000000 10%);
-    background-image: linear-gradient(bottom, #FFFFFF @level@, #000000 10%);        
-    color: #003366;
-    display: block;
-    height: 250px;
-    width: 250px;
-    display: inline-block;
-    position: absolute;
-    top: 142px;
-    z-index: 1;
-}
-#container {
-    background-image: url("milk_carton.png");
-    height: 333px;
-    width: 250px;
-    position: absolute;
-    font-size: 40px;
-    font-weight: bold;
-    text-align: center;
-    z-index: 2;
-}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Talis Milkmaid - diligently checking and reporting your milk level throughout the day.">
+    <meta name="author" content="Talis">
 
-#container .date {
-    font-size: 20px;
-    font-weight: normal;    
-}
+    <title>Talis Milkmaid</title>
 
-#container .level {
-    font-size: 40px;
-    font-weight: bold;  
-}
-</style>
-</head>
-<body>
-<h1>Milkmaid Status</h1>
-<div id="fill">
-</div>
-<div id="container">
-    <div class="date">@date@</div>
-    <div class="level">@level@</div>
-</div>
-</body>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+    <!-- Custom styles for this template -->
+    <link href="milklevel.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      #fill {
+          background-image: -webkit-gradient(linear, 0 100%, 0 0, color-stop(0.8, #FFFFFF), color-stop(0.1, #CECECE));
+          background-image: -webkit-linear-gradient(bottom, #FFFFFF @level@, #CECECE 10%);
+          background-image: -moz-linear-gradient(bottom, #FFFFFF @level@, #CECECE 10%);
+          background-image: -o-linear-gradient(bottom, #FFFFFF @level@, #CECECE 10%);
+          background-image: linear-gradient(bottom, #FFFFFF @level@, #CECECE 10%);        
+          color: #003366;
+          height: 250px;
+          width: 250px;
+          position: absolute;
+          top: 62px;
+          left: 0px;
+          z-index: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <h3 class="text-muted">Milkmaid</h3>
+      </div>
+      <div class="jumbotron">
+        <div class="row">
+          <div class="col-lg-6">
+            <div id="milk_container" class="center-block">
+              <div id="fill">
+              </div>
+              <div id="container">
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <h2>Current Milk Level</h2>
+            <h3>@level@ remaining</h3>
+            <br/>
+            <h4>Last checked at</h4>
+            <p>@date@</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <p>&copy; Talis 2014</p>
+      </div>
+    </div>
+  </body>
 </html>
