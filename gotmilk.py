@@ -37,7 +37,7 @@ def internet_on():
 		return False
 
 def get_ip():
-	cmd = "ifconfig wlan0 | awk '/inet addr/ { print $2 } '"
+	cmd = "ifconfig eth0 | awk '/inet addr/ { print $2 } '"
 	process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
 	process.wait()
 	return process.stdout.read().split(':')[1]
@@ -157,7 +157,7 @@ while True:
 				send_message(level_message,'yellow')
 				milk_low_warning_shown = True
 				milk_ok_warning_shown = False
-		elif 400 <= resistor_level <= 650:
+		elif 400 <= resistor_level < 650:
 			# Milk is healthy
 			level_message = "Milk level currently okay"
 
