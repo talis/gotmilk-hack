@@ -35,3 +35,41 @@ Possible messages sent to HipChat:
 - **Milk is plentiful!** - _This is shown if there is a lot of milk left_
 
 
+Notes on setting up the Pi
+==========================
+
+**create main folder**
+```
+cd /home/pi
+mkdir gotmilk
+cd gotmilk
+```
+
+**install python dev tools**
+```
+sudo apt-get install python-dev
+```
+
+**install spi**
+```
+mkdir py-spidev
+cd py-spidev/
+wget https://raw.github.com/doceme/py-spidev/master/setup.py
+wget https://raw.github.com/doceme/py-spidev/master/spidev_module.c
+sudo python setup.py install
+```
+
+**install pip**
+```
+sudo apt-get install python-pip
+```
+
+**use pip to install requests module**
+```
+sudo pip install requests
+```
+
+**copy files over to pi**
+```
+scp -r * pi@192.168.10.98:/home/pi/gotmilk
+```
