@@ -91,3 +91,20 @@ sudo update-rc.d /etc/init.d/gotmilk.sh defaults
 cd /home/pi/gotmilk
 sudo cp .gotmilk /etc/gotmilk
 ```
+
+**ensure SPI is available**
+```
+sudo nano /etc/modprobe.d/raspi-blacklist.conf
+```
+
+Inside this file you will see a line like this:
+```
+blacklist spi-bcm2708
+```
+
+You need to ensure it is commented out by putting a # in front of it:
+```
+#blacklist spi-bcm2708
+```
+
+Save the file and do a reboot
