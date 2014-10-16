@@ -38,6 +38,11 @@ Possible messages sent to HipChat:
 Notes on setting up the Pi
 ==========================
 
+**ensure raspbian up to date**
+```
+sudo apt-get update
+```
+
 **create main folder**
 ```
 cd /home/pi
