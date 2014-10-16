@@ -76,5 +76,5 @@ sudo pip install requests
 
 **copy files over to pi**
 ```
-scp -r * pi@192.168.10.98:/home/pi/gotmilk
+scp -r * pi@<IP ADDRESS>:/home/pi/gotmilk
 ```
