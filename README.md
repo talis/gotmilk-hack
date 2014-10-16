@@ -78,3 +78,16 @@ sudo pip install requests
 ```
 scp -r * pi@<IP ADDRESS>:/home/pi/gotmilk
 ```
+
+**setup init.d**
+```
+sudo cp init.d/gotmilk.sh /etc/init.d
+sudo chmod +x /etc/init.d/gotmilk.sh
+sudo update-rc.d /etc/init.d/gotmilk.sh defaults
+```
+
+**duplicate the config file**
+```
+cd /home/pi/gotmilk
+sudo cp .gotmilk /etc/gotmilk
+```
