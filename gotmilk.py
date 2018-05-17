@@ -25,13 +25,13 @@ import fileinput
 config = ConfigParser.ConfigParser()
 config.read([os.path.expanduser("~/gotmilk/.gotmilk"), '/etc/gotmilk'])
 
-AUTH_TOKEN = config.get('HipChat', 'token')
-HIPCHAT_ROOM_ID = config.get('HipChat', 'roomid')
+AUTH_TOKEN = config.get('Slack', 'token')
+SLACK_ROOM_ID = config.get('Slack', 'roomid')
 DELAY = config.getfloat('GotMilk', 'delay')
 
 def internet_on():
 	try:
-		urllib2.urlopen('https://api.hipchat.com', timeout=1)
+		urllib2.urlopen('https://slack.com', timeout=1)
 		return True
 	except urllib2.URLError as err:
 		return False
@@ -44,17 +44,19 @@ def get_ip():
 
 def send_message(message,color):
 	# send a message via HipChat
-	hipchat_url = "https://api.hipchat.com/v1/rooms/message?format=json&auth_token=" + AUTH_TOKEN
+	# hipchat_url = "https://api.hipchat.com/v1/rooms/message?format=json&auth_token=" + AUTH_TOKEN
+
+	# send a message via Slack
+	slack_url = "https://slack.com/api/chat.postMessage"
 
 	payload = {
-		'room_id':HIPCHAT_ROOM_ID,
-		'from':'Milkmaid',
-		'color':color,
-		'notify':'true',
-		'message':message
+		'token':AUTH_TOKEN,
+		'channel':SLACK_ROOM_ID,
+		'text':message,
+		'username':'Milkmaid'
 	}
 
-	r = requests.post(hipchat_url, data=payload)
+	r = requests.post(slack_url, data=payload)
 
 def wait_for_access():
 	while (internet_on() == False):
@@ -63,6 +65,11 @@ def wait_for_access():
 	send_message('Your friendly Talis Milkmaid is up and monitoring on '+ ip_address+' (checking the fridge every '+str(DELAY)+' seconds)','gray')
 
 wait_for_access() 
+
+def write_json(percent):
+	current = open('milklevel.json', 'w')
+	current.write('{"milk":'+percent+'}')
+	current.close()
 
 def write_file(level,message):
 	# write data to local files
@@ -189,9 +196,9 @@ while True:
 	current_time = now.strftime("%Y-%m-%d %H:%M")
 
 	# Print out results
-	#print "--------------------------------------------"  
-	#print("{} pressure : {} ({}V)".format(current_time,resistor_level,resistor_volts))
-	#print level_message  
+	print "--------------------------------------------"  
+	print("{} pressure : {} ({}V)".format(current_time,resistor_level,resistor_volts))
+	print level_message  
 
 	# write the level to the local logs etc
 	write_file(resistor_level,current_time+","+str(resistor_level)+","+str(resistor_volts)+","+level_message)
@@ -203,9 +210,10 @@ while True:
 
 	update_html(resistor_level_percent_string,current_time)
 
+	write_json(resistor_level_percent_string)
+
 	# set the previous level to the current level for comparison next time
 	previous_resistor_level = resistor_level
 
 	# Wait before repeating loop
 	time.sleep(DELAY)
- 
